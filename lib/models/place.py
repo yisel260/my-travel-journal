@@ -1,4 +1,4 @@
-from __init__ import CURSOR, CONN
+from models.__init__ import CURSOR, CONN
 
 
 class Place:
@@ -34,19 +34,20 @@ class Place:
         return self._region
 
     @region.setter
-    def location(self, region):
+    def region(self, region):
         if isinstance(region, str) and len(region):
             self._region = region
         else:
             raise ValueError(
                 "Please reentry the name of the region"
             )
+        
     @property
     def country(self):
         return self._country
 
     @country.setter
-    def location(self, country):
+    def country(self, country):
         if isinstance(country, str) and len(country):
             self._country = country
         else:
@@ -61,8 +62,8 @@ class Place:
             CREATE TABLE IF NOT EXISTS places (
             id INTEGER PRIMARY KEY,
             name TEXT,
-            region TEXT
-            contry TEXT)
+            region TEXT,
+            country TEXT)
         """
         CURSOR.execute(sql)
         CONN.commit()
@@ -81,7 +82,7 @@ class Place:
         Update object id attribute using the primary key value of new row.
         Save the object in local dictionary using table row's PK as dictionary key"""
         sql = """
-            INSERT INTO departments (name, region, country)
+            INSERT INTO places (name, region, country)
             VALUES (?, ?,?)
         """
 

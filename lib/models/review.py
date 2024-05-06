@@ -1,24 +1,23 @@
-from __init__ import CURSOR, CONN
-from place import Place
+from models.__init__ import CURSOR, CONN
+from models.place import Place
 
 class Review:
 
     # Dictionary of objects saved to the database.
     all = {}
 
-    def __init__(self, food_rating ,safety_rating,affordability_rating, comment, place_id, id=None):
+    def __init__(self, food_rating ,safety_rating,affordability_rating, entertainment_rating ,comment, place_id, id=None):
         self.id = id
         self.food_rating = food_rating
-        self.safety_ragin = safety_rating
+        self.safety_rating = safety_rating
         self.affordability_rating = affordability_rating
+        self.entertainment_rating = entertainment_rating
         self.comment = comment
         self.place_id = place_id
 
     def __repr__(self):
         return (
-            f"<Employee {self.id}: {self.name}, {self.job_title}, " +
-            f"Department ID: {self.department_id}>"
-        )
+            f"{self.place_id}, {self.food_rating},{self.safety_rating},{self.affordability_rating}, {self.comment}" )
 
     @property
     def food_rating(self):
@@ -58,6 +57,19 @@ class Review:
             raise ValueError(
                 "The rating must be a number  between 1 and 5"
             )
+        
+    @property
+    def entertainment_rating(self):
+        return self._entertainment_rating
+
+    @entertainment_rating.setter
+    def entertainment_rating(self, entertainment_rating):
+        if isinstance(entertainment_rating, int) and entertainment_rating >= 1 and entertainment_rating <= 5:
+            self._entertainment_rating = entertainment_rating
+        else:
+            raise ValueError(
+                "The rating must be a number  between 1 and 5"
+            )
 
     @property
     def comment(self):
@@ -71,6 +83,7 @@ class Review:
             raise ValueError(
                 "Please enter your commnet again"
             )
+
 
     @property
     def place_id(self):
@@ -94,7 +107,8 @@ class Review:
             food_rating INTEGER,
             safety_rating INTEGER,
             affordability_rating INTEGER,
-            commented TEXT,
+            entertainment_rating INTEGER,
+            comment TEXT,
             place_id INTEGER,
             FOREIGN KEY (place_id) REFERENCES places(id))
         """
@@ -115,11 +129,11 @@ class Review:
         Update object id attribute using the primary key value of new row.
         Save the object in local dictionary using table row's PK as dictionary key"""
         sql = """
-                INSERT INTO reviews (food_rating, safety_rating, affordability_rating, comment, place_id)
-                VALUES (?, ?, ?,?,?)
+                INSERT INTO reviews (food_rating, safety_rating, affordability_rating, entertainment_rating, comment, place_id)
+                VALUES (?, ?, ?,?,?,?)
         """
 
-        CURSOR.execute(sql, (self.food_rating, self.safety_rating, self.affordability_rating, self.comment,self.place_id))
+        CURSOR.execute(sql, (self.food_rating, self.safety_rating, self.affordability_rating,self.entertainment_rating, self.comment,self.place_id))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -154,9 +168,9 @@ class Review:
         self.id = None
 
     @classmethod
-    def create(cls, food_rating,safety_rating,affordability_rating,comment,place_id):
+    def create(cls, food_rating,safety_rating,affordability_rating,entertainment_rating,comment,place_id):
         """ Initialize a new Employee instance and save the object to the database """
-        review = cls((food_rating,safety_rating,affordability_rating,comment,place_id))
+        review = cls(food_rating,safety_rating,affordability_rating, entertainment_rating,comment,place_id)
         review.save()
         return review
 
