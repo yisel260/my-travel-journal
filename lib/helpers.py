@@ -37,13 +37,11 @@ def search_places():
         print ( f"You have visited the folowing regions or states in {country}")
         for i, region in enumerate(regions, start=1):
            print(i, region)
-        
-    
-"""
-    places = Place.get_all()
-    for i, place in enumerate(places, start=1):
-       print(i, place)
-"""
+
+    if choice == "3":
+       for i, place in enumerate(places, start=1):
+           print(i, place)
+
 
 def add_place():
     name = str(input("Please enter the name of the place or city you want to add :")).lower().strip()
