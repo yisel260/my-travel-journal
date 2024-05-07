@@ -3,20 +3,47 @@ from models.place import Place
 from models.review import Review 
 
 
-
-def helper_1():
-    print("Performing useful function#1.")
-
-
 def exit_program():
     print("Goodbye!")
     exit()
 
-def list_all_places():
+def search_places():
 
+    print(""" I want to :
+          1. See countries I have visited
+          2. See the regions or states in a country I have visited 
+          3. See all places I have visited 
+          4. Search for a place by name
+
+          """)
+    choice = str(input(">"))
+    places = Place.get_all()
+    if choice == "1":
+        countries =[]
+        for place in places:
+            if place.country not in countries:
+                countries.append(place.country)
+
+        for i, country in enumerate(countries, start=1):
+           print(i, country)
+
+    if choice == "2":
+        country = str(input("Enter the country you want to search:"))
+        places_in_country = Place.find_by_country(country)
+        regions =[]
+        for place in places_in_country:
+            if place.region not in regions:
+                regions.append(place.region)
+        print ( f"You have visited the folowing regions or states in {country}")
+        for i, region in enumerate(regions, start=1):
+           print(i, region)
+        
+    
+"""
     places = Place.get_all()
     for i, place in enumerate(places, start=1):
        print(i, place)
+"""
 
 def add_place():
     name = str(input("Please enter the name of the place or city you want to add :")).lower().strip()
@@ -78,11 +105,20 @@ def add_review(place):
     entertaiment_rating = int( input(">"))
 
     print("Enter your thougths about this place.")
-    comment= int( input(">"))
+    comment= str( input(">"))
     
     new_review = Review.create(food_rating=food_rating, 
                                safety_rating=safety_rating,
                                affordability_rating=affordability_rating,
                                entertaiment_rating= entertaiment_rating,
-                               comment = comment)
+                               comment = comment,
+                               place_id = place.id)
+    
     print("Review added! ")
+
+    def grab_place_menu():
+        print("""What would you like to do : 
+          
+          1. Add a place then review it
+          2. Search for a place I have already added to review
+          """)

@@ -181,6 +181,30 @@ class Place:
 
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None
+   
+    @classmethod
+    def find_by_region(cls, region):
+        sql = """
+            SELECT *
+            FROM places
+            WHERE region is ?
+        """
+
+        rows = CURSOR.execute(sql, (region)).fetchall()
+        for row in rows:
+            return cls.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_country(cls,country):
+        """Return a Department object corresponding to first table row matching specified name"""
+        sql = """
+            SELECT *
+            FROM places
+            WHERE country is ?
+        """ 
+
+        rows = CURSOR.execute(sql, (country,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
 
     def reviews(self):
         """Return list of reviews associated with current department"""
