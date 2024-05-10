@@ -48,7 +48,7 @@ def search_places():
         if len(place) == 1:
            print(f"{place.name},{place.region},{place.country}")
         else:
-            print("There are toom many places with this name!")
+            print("There are too many places with this name!")
 
 
 def add_place():
@@ -128,3 +128,7 @@ def add_review(place):
           1. Add a place then review it
           2. Search for a place I have already added to review
           """)
+
+
+def delete_place(place):
+    place.delete()
