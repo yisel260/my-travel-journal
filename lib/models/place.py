@@ -179,8 +179,9 @@ class Place:
             WHERE name is ?
         """
 
-        row = CURSOR.execute(sql, (name,)).fetchone()
-        return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (name,)).fetchall()
+        for row in rows:
+            return cls.instance_from_db(row) if row else None
    
     @classmethod
     def find_by_region(cls, region):

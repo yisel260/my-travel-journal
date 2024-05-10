@@ -42,6 +42,14 @@ def search_places():
        for i, place in enumerate(places, start=1):
            print(i, place)
 
+    if choice == "4":
+        name = str(input("Please enter the name of the place: "))
+        place = Place.find_by_name(name)
+        if len(place) == 1:
+           print(f"{place.name},{place.region},{place.country}")
+        else:
+            print("There are toom many places with this name!")
+
 
 def add_place():
     name = str(input("Please enter the name of the place or city you want to add :")).lower().strip()
