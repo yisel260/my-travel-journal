@@ -177,7 +177,7 @@ def add_review(place):
 
     print("""Was this place safe? Please enter your rating from 1 to 5.
           1= Not at all! I was lucky to get back alive!
-          5= Very! You can enjoy everything with out worry
+          5= Very! You can enjoy everything without worry
           """)
     safety_rating = int( input(">"))
 
@@ -205,22 +205,18 @@ def add_review(place):
     
     print("Review added! ")
 
-    def grab_place_menu():
-        print("""What would you like to do : 
-          
-          1. Add a place then review it
-          2. Search for a place I have already added to review
-          """)
-
 
 def delete_place(place):
     place.delete()
 
 def get_place_details(place):
     
-    print (f"""Place:{place.name}
+    print (f"""
+           
+             Place:{place.name}
              Region:{place.region}
              Country:{place.country}
+
              """)
     
     reviews = place.reviews()
@@ -234,6 +230,38 @@ def get_place_details(place):
               """)
     else:
         print ("You have not added any reviews to this place")
+
+def select_place():
+    print ("""How would you like to select a place?
+           1. Select from a list of all my search_places
+           2. Search for a place by name""")
+    choice = input(">")
+    if choice == "1":
+        places= Place.all()
+        for i, place in enumerate(places, start=1):
+            print(i, place)
+        
+        selected_place = input("Enter the number of your choice:")
+        return selected_place
+    else: 
+        place_name= input("Enter the name of the place:")
+        places = Place.find_by_name(place_name)
+
+        if len(places) == 1:
+           selected_place = places[0]
+           return selected_place
+        
+        elif len(places) > 1:
+            print ("There are several places with that name please select the correct one from the list")
+            for i, place in enumerate(select_place, start = 1):
+                print (i, place)
+            user_choice = int(input("The number of your choice:>"))
+            selected_place = places[user_choice-1]
+            return selected_place
+            
+
+        
+
         
              
     

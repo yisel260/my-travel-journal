@@ -4,10 +4,11 @@ from helpers import (
     exit_program,
     search_places,
     add_place,
-    #delete_place,
+    delete_place,
     add_review,
-    #get_place_details
-    
+    get_place_details,
+    menu,
+    select_place
 )
 
 
@@ -22,26 +23,19 @@ def main():
         elif choice == "2":
             add_place()
         elif choice == "3":
-            delete_place()
+            place=delete_place()
+            delete_place(place)
         elif choice == "4":
+            place= select_place()
             add_review(place)
         elif choice == "5":
-            get_place_details()
+            place= select_place()
+            get_place_details(place)
         else:
             print("Invalid choice")
 
-
-def menu():
-    print("""Please select an option:
-          
-          0.Exit the program
-          1.Search my places 
-          2.Add a new place 
-          3.Delete a place 
-          4.Review a place 
-          5.See details about a place 
-    
-          """)
+def select_place():
+    pass
 
 if __name__ == "__main__":
     main()
