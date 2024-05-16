@@ -191,7 +191,7 @@ def add_review(place):
           1= Not a lot of things to do or see, boring, dissapointing
           5= Wow! So many things to see and do! I need to go back. 
           """)
-    entertaiment_rating = int( input(">"))
+    entertainment_rating = int( input(">"))
 
     print("Enter your thougths about this place.")
     comment= str( input(">"))
@@ -199,7 +199,7 @@ def add_review(place):
     new_review = Review.create(food_rating=food_rating, 
                                safety_rating=safety_rating,
                                affordability_rating=affordability_rating,
-                               entertaiment_rating= entertaiment_rating,
+                               entertainment_rating= entertainment_rating,
                                comment = comment,
                                place_id = place.id)
     
