@@ -191,9 +191,9 @@ class Place:
             WHERE region is ?
         """
 
-        rows = CURSOR.execute(sql, (region)).fetchall()
-        for row in rows:
-            return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (region,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+
     
     @classmethod
     def find_by_country(cls,country):
