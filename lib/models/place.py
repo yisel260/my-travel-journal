@@ -208,13 +208,13 @@ class Place:
         return [cls.instance_from_db(row) for row in rows]
 
     def reviews(self):
-        """Return list of reviews associated with current department"""
-        from review import Review
+        """Return list of reviews associated with current place"""
+        from models.review import Review
         sql = """
             SELECT * FROM reviews
             WHERE  place_id = ?
         """
-        CURSOR.execute(sql, (self.id,),)
+        CURSOR.execute(sql, (self.id,))
 
         rows = CURSOR.fetchall()
         return [

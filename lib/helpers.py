@@ -107,18 +107,32 @@ def search_places():
                 print (f"You have visited the following places in {region_choice}:")
                 for i, place in enumerate(places, start=1):
                     print(i, place.name)
+            if follow_up_choice == 2:
+                menu()
 
     if choice == "3":
        for i, place in enumerate(places, start=1):
-           print(i, place)
+            print(i, place)
+
+       print("""
+              
+              What would you like to do next?
+              1. Select a place and see details about it
+              2. Go back to main menu
+
+              """)
+       choice = input(">")
+       if choice == "1": 
+               print("Please select a place by number")
+               user_choice= int(input(">"))
+               place = places[user_choice-1]
+               get_place_details(place)
 
     if choice == "4":
         name = str(input("Please enter the name of the place: "))
         place = Place.find_by_name(name)
         for i, place in enumerate(places, start=1):
            print(i, place)
-        
-
 
 def add_place():
     name = str(input("Please enter the name of the place or city you want to add :")).lower().strip()
@@ -203,18 +217,23 @@ def delete_place(place):
     place.delete()
 
 def get_place_details(place):
-    reviews = place.reviews()
+    
     print (f"""Place:{place.name}
              Region:{place.region}
              Country:{place.country}
              """)
-    for review in reviews: 
+    
+    reviews = place.reviews()
+    if reviews:
+      for review in reviews: 
         print(f"""Food:{review.food_rating}
                   Safety:{review.safety_rating}
-                  Affordability:{review.affordability}
+                  Affordability:{review.affordability_rating}
                   Entertainment:{review.entertainment_rating}
                   Comment:{review.comment}
               """)
+    else:
+        print ("You have not added any reviews to this place")
         
              
     

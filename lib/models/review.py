@@ -185,11 +185,12 @@ class Review:
             review.food_rating = row[1]
             review.safety_raging = row[2]
             review.affordability_rating = row[3]
-            review.comment = row[4]
-            review.place_id = row[5]
+            review.entertainment_rating = row[4]
+            review.comment = row[5]
+            review.place_id = row[6]
         else:
             # not in dictionary, create new instance and add to dictionary
-            review = cls(row[1], row[2], row[3], row[4], row[5])
+            review = cls(row[1], row[2], row[3], row[4], row[5],row[6])
             review.id = row[0]
             cls.all[review.id] = review
         return review
