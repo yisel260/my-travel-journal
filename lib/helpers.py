@@ -26,6 +26,19 @@ def search_places():
 
         for i, country in enumerate(countries, start=1):
            print(i, country)
+        print("""What would you like to do next?
+              1. Select a country and see places I have visited there
+              2. Go back to main menu""")
+        follow_up_choice =int(input("Enter a Number: "))
+        if follow_up_choice == 1:
+            print("Please chose a country by its number")
+            country = int(input("Enter a the number of the country you want to select:"))
+            country_choice = countries[country-1]
+            print(country_choice)
+            places = Place.find_by_country(country_choice)
+            print (f"You have visited the following places in {country_choice}:")
+            for place in places: 
+                print (f"{place.name}, {place.region}")
 
     if choice == "2":
         country = str(input("Enter the country you want to search:"))
@@ -45,10 +58,9 @@ def search_places():
     if choice == "4":
         name = str(input("Please enter the name of the place: "))
         place = Place.find_by_name(name)
-        if len(place) == 1:
-           print(f"{place.name},{place.region},{place.country}")
-        else:
-            print("There are too many places with this name!")
+        for i, place in enumerate(places, start=1):
+           print(i, place)
+        
 
 
 def add_place():
@@ -132,3 +144,20 @@ def add_review(place):
 
 def delete_place(place):
     place.delete()
+
+def get_place_details(place):
+    reviews = place.reviews()
+    print (f"""Place:{place.name}
+             Region:{place.region}
+             Country:{place.country}
+             """)
+    for review in reviews: 
+        print(f"""Food:{review.food_rating}
+                  Safety:{review.safety_rating}
+                  Affordability:{review.affordability}
+                  Entertainment:{review.entertainment_rating}
+                  Comment:{review.comment}
+              """)
+        
+             
+    
