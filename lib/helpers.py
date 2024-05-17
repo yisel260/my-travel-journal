@@ -206,8 +206,24 @@ def add_review(place):
     print("Review added! ")
 
 
-def delete_place(place):
-    place.delete()
+def delete_place():
+
+    place=select_place()
+
+    print(f"""
+          You are about to delete {place}
+          is this correct?
+
+          1. Yes
+          2. No
+          
+          """)
+    choice = input(">")
+    if choice == "1":          
+           place.delete()
+           print (f"{place} has been deleted!")
+    elif choice == "2":
+          menu()
 
 def get_place_details(place):
     
@@ -237,27 +253,33 @@ def select_place():
            2. Search for a place by name""")
     choice = input(">")
     if choice == "1":
-        places= Place.all()
+        places= Place.get_all()
         for i, place in enumerate(places, start=1):
             print(i, place)
+
+        number_choice =int(input("Enter the number of your choice:"))
         
-        selected_place = input("Enter the number of your choice:")
+        selected_place = places[number_choice-1]
         return selected_place
     else: 
         place_name= input("Enter the name of the place:")
         places = Place.find_by_name(place_name)
 
-        if len(places) == 1:
-           selected_place = places[0]
-           return selected_place
+        if places:
+
+            if len(places) == 1:
+               selected_place = places[0]
+               return selected_place
         
-        elif len(places) > 1:
-            print ("There are several places with that name please select the correct one from the list")
-            for i, place in enumerate(select_place, start = 1):
-                print (i, place)
-            user_choice = int(input("The number of your choice:>"))
-            selected_place = places[user_choice-1]
-            return selected_place
+            elif len(places) > 1:
+                 print ("There are several places with that name please select the correct one from the list")
+                 for i, place in enumerate(select_place, start = 1):
+                     print (i, place)
+                 user_choice = int(input("The number of your choice:>"))
+                 selected_place = places[user_choice-1]
+                 return selected_place
+            else: 
+                print(f"Oh no! We found no places with the name {place_name}")
             
 
         

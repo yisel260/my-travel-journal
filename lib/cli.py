@@ -23,8 +23,7 @@ def main():
         elif choice == "2":
             add_place()
         elif choice == "3":
-            place=select_place()
-            delete_place(place)
+            delete_place()
         elif choice == "4":
             place= select_place()
             add_review(place)
