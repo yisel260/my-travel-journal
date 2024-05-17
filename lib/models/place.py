@@ -180,8 +180,7 @@ class Place:
         """
 
         rows = CURSOR.execute(sql, (name,)).fetchall()
-        for row in rows:
-            return cls.instance_from_db(row) if row else None
+        return [cls.instance_from_db(row) for row in rows]
    
     @classmethod
     def find_by_region(cls, region):

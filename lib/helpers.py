@@ -229,6 +229,11 @@ def delete_place():
     elif choice == "2":
           menu()
 
+
+def get_place_details1():
+    place = select_place()
+    get_place_details(place)
+
 def get_place_details(place):
     
     print (f"""
@@ -268,9 +273,9 @@ def select_place():
     else: 
         place_name= input("Enter the name of the place:")
         places = Place.find_by_name(place_name)
+        print (places)
 
         if places:
-
             if len(places) == 1:
                selected_place = places[0]
                return selected_place
