@@ -166,6 +166,10 @@ def follow_up_menu(place):
     elif choice == "3":
         pass
 
+def add_review1():
+     place= select_place()
+     add_review(place)
+
 
 def add_review(place):
     print(f"You are adding a review to {place.name}, {place.region},{place.country}")

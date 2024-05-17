@@ -8,7 +8,7 @@ from helpers import (
     add_review,
     get_place_details,
     menu,
-    select_place
+    add_review1
 )
 
 
@@ -25,11 +25,9 @@ def main():
         elif choice == "3":
             delete_place()
         elif choice == "4":
-            place= select_place()
-            add_review(place)
+            add_review1()
         elif choice == "5":
-            place= select_place()
-            get_place_details(place)
+            get_place_details()
         else:
             print("Invalid choice")
 
