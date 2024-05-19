@@ -5,11 +5,12 @@ from helpers import (
     search_places,
     add_place,
     delete_place,
-    add_review,
-    get_place_details,
+    add_review1,
+    get_place_details1,
     menu,
     add_review1,
-    get_place_details1
+    get_place_details1,
+    search_reviews
 )
 
 
@@ -27,7 +28,9 @@ def main():
             delete_place()
         elif choice == "4":
             add_review1()
-        elif choice == "5":
+        elif choice== "5":
+            search_reviews()
+        elif choice == "6":
             get_place_details1()
         else:
             print("Invalid choice")

@@ -17,7 +17,7 @@ class Review:
 
     def __repr__(self):
         return (
-            f"{self.place_id}, {self.food_rating},{self.safety_rating},{self.affordability_rating}, {self.comment}" )
+            f"{self.place_id}, {self.food_rating},{self.safety_rating},{self.affordability_rating}, {self.entertainment_rating},{self.comment}" )
 
     @property
     def food_rating(self):
@@ -95,12 +95,12 @@ class Review:
             self._place_id = place_id
         else:
             raise ValueError(
-                "department_id must reference a place in the database")
+                " place_id must be a place in the database")
 
 
     @classmethod
     def create_table(cls):
-        """ Create a new table to persist the attributes of Employee instances """
+        """ Create a new table to persist the attributes of Review instances """
         sql = """
             CREATE TABLE IF NOT EXISTS reviews (
             id INTEGER PRIMARY KEY,
@@ -125,7 +125,7 @@ class Review:
         CONN.commit()
 
     def save(self):
-        """ Insert a new row with the name, job title, and department id values of the current Employee object.
+        """ Insert a new row with the attribut  values of the current Review object.
         Update object id attribute using the primary key value of new row.
         Save the object in local dictionary using table row's PK as dictionary key"""
         sql = """
@@ -140,7 +140,7 @@ class Review:
         type(self).all[self.id] = self
 
     def update(self):
-        """Update the table row corresponding to the current Employee instance."""
+        """Update the table row corresponding to the current Review instance."""
         sql = """
             UPDATE reviews
             SET food_rating =?, safety_rating =? , affordability_rating =? , comment =?, place_id =?
@@ -169,14 +169,14 @@ class Review:
 
     @classmethod
     def create(cls, food_rating,safety_rating,affordability_rating,entertainment_rating,comment,place_id):
-        """ Initialize a new Employee instance and save the object to the database """
+        """ Initialize a new Review instance and save the object to the database """
         review = cls(food_rating,safety_rating,affordability_rating, entertainment_rating,comment,place_id)
         review.save()
         return review
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return an Employee object having the attribute values from the table row."""
+        """Return an Review object having the attribute values from the table row."""
 
         # Check the dictionary for  existing instance using the row's primary key
         review = cls.all.get(row[0])
@@ -197,14 +197,13 @@ class Review:
 
     @classmethod
     def get_all(cls):
-        """Return a list containing one Employee object per table row"""
+        """Return a list containing one Review object per table row"""
         sql = """
             SELECT *
             FROM reviews
         """
 
         rows = CURSOR.execute(sql).fetchall()
-
         return [cls.instance_from_db(row) for row in rows]
 
     @classmethod
@@ -228,5 +227,5 @@ class Review:
             WHERE place_id is ?
         """
 
-        row = CURSOR.execute(sql, (place_id,)).fetchall()
-        return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (place_id,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]

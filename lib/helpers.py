@@ -10,7 +10,8 @@ def menu():
           2.Add a new place 
           3.Delete a place 
           4.Review a place 
-          5.See details about a place 
+          5.Search reviews 
+          6.See details about a place 
     
           """)
 
@@ -154,17 +155,14 @@ def follow_up_menu(place):
           What would you like to do next?
           
           1. Add a review to this place
-          2. Update or edit this place
-          3. Go back to main menu
+          2. Go back to main menu
           
           """)
     choice = input(">")
     if choice == "1":
         add_review(place)
-    elif choice == "2":
-        update_place(place)
     elif choice == "3":
-        pass
+        menu()
 
 def add_review1():
      place= select_place()
@@ -207,7 +205,10 @@ def add_review(place):
                                comment = comment,
                                place_id = place.id)
     
+    
     print("Review added! ")
+
+    print (new_review)
 
 
 def delete_place():
@@ -229,6 +230,103 @@ def delete_place():
     elif choice == "2":
           menu()
 
+def search_reviews():
+    reviews = Review.get_all()
+
+    print("""What would you like to do?
+          1. See all reviews
+          2. Search reviews for places with  a specific rating in a category""")
+    
+    choice = input(">")
+    if choice == "1":
+     
+       for review in reviews: 
+           place = Place.find_by_id(review.place_id)
+           print (f"""
+                   {place}
+
+                 Food:{review.food_rating}
+                 Safety:{review.safety_rating}
+                 Affordability:{review.affordability_rating}
+                 Entertainment:{review.entertainment_rating}
+                 Comment:{review.comment}
+                
+                  """)
+    elif choice == "2":
+        print("""What category would you like to look at?
+              1.Food
+              2.Safety
+              3.Affordability 
+              4.Entertainment 
+              """)
+        
+        valid_choices = ["1", "2", "3", "4"]
+        category_choice = input(">")
+
+        while category_choice not in valid_choices:
+            print("Please enter a valid choice, a number from 1 to 4.")
+            category_choice = input(">")
+
+        if category_choice =="1":
+                 print(f"""Please enter a number from 1 to 5 
+                  Show me places that have a food rating of : """)
+                 rating = int(input(">"))
+                 places = []
+                 for review in reviews:
+                     if review.food_rating == rating:
+                         place = Place.find_by_id(review.place_id)
+                         places.append(place)
+                 if places:
+                    for i, place in enumerate(places, start=1):
+                         print(i, place)
+                 else: 
+                    print("No places match your search!")
+
+        elif category_choice=="2":
+                print(f"""Please enter a number from 1 to 5 
+                  Show me places that have a safety rating of : """)
+                rating = int(input(">"))
+                places = []
+                for review in reviews:
+                     if review.safety_rating == rating:
+                         place = Place.find_by_id(review.place_id)
+                         places.append(place)
+                if places:
+                    for i, place in enumerate(places, start=1):
+                         print(i, place)
+                else: 
+                    print("No places match your search!")
+        elif category_choice=="3":
+                print(f"""Please enter a number from 1 to 5 
+                  Show me places that have a affordability rating of : """)       
+                rating = int(input(">"))
+                places = []
+                for review in reviews:
+                     if review.affordability_rating == rating:
+                         place = Place.find_by_id(review.place_id)
+                         places.append(place)
+                if places:
+                    for i, place in enumerate(places, start=1):
+                         print(i, place)
+                else: 
+                    print("No places match your search!")    
+               
+        elif category_choice=="4":
+                print(f"""Please enter a number from 1 to 5 
+                  Show me reviews that have a enetertainment rating of : """)
+                rating = int(input(">"))
+                places = []
+                for review in reviews:
+                     if review.entertainment_rating == rating:
+                         place = Place.find_by_id(review.place_id)
+                         places.append(place)
+                if places:
+                    for i, place in enumerate(places, start=1):
+                         print(i, place)
+                else: 
+                    print("No places match your search!")
+        else:
+               print("please enter a valid choice, a number from 1 to 4. ")
 
 def get_place_details1():
     place = select_place()
@@ -258,7 +356,7 @@ def get_place_details(place):
 
 def select_place():
     print ("""How would you like to select a place?
-           1. Select from a list of all my search_places
+           1. Select from a list of all my places
            2. Search for a place by name""")
     choice = input(">")
     if choice == "1":
@@ -282,7 +380,7 @@ def select_place():
         
             elif len(places) > 1:
                  print ("There are several places with that name please select the correct one from the list")
-                 for i, place in enumerate(select_place, start = 1):
+                 for i, place in enumerate(places, start = 1):
                      print (i, place)
                  user_choice = int(input("The number of your choice:>"))
                  selected_place = places[user_choice-1]
