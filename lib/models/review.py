@@ -16,9 +16,12 @@ class Review:
         self.place_id = place_id
 
     def __repr__(self):
-        return (
-            f"{self.place_id}, {self.food_rating},{self.safety_rating},{self.affordability_rating}, {self.entertainment_rating},{self.comment}" )
-
+        return ( f"""
+                 Food:{self.food_rating}
+                 Safety:{self.safety_rating}
+                 Affordability:{self.affordability_rating}
+                 Entertainment:{self.entertainment_rating}
+                 Comment:{self.comment}""")
     @property
     def food_rating(self):
         return self._food_rating

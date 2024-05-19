@@ -180,6 +180,7 @@ class Place:
         """
 
         rows = CURSOR.execute(sql, (name,)).fetchall()
+
         return [cls.instance_from_db(row) for row in rows]
    
     @classmethod

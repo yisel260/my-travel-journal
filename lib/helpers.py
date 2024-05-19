@@ -224,7 +224,10 @@ def delete_place():
           
           """)
     choice = input(">")
-    if choice == "1":          
+    if choice == "1": 
+           reviews = place.reviews()  
+           for review in reviews:
+               review.delete()       
            place.delete()
            print (f"{place} has been deleted!")
     elif choice == "2":
@@ -235,7 +238,8 @@ def search_reviews():
 
     print("""What would you like to do?
           1. See all reviews
-          2. Search reviews for places with  a specific rating in a category""")
+          2. Search reviews for places with  a specific rating in a category
+          3. See reviews of a specific place""")
     
     choice = input(">")
     if choice == "1":
@@ -244,13 +248,7 @@ def search_reviews():
            place = Place.find_by_id(review.place_id)
            print (f"""
                    {place}
-
-                 Food:{review.food_rating}
-                 Safety:{review.safety_rating}
-                 Affordability:{review.affordability_rating}
-                 Entertainment:{review.entertainment_rating}
-                 Comment:{review.comment}
-                
+                   {review}
                   """)
     elif choice == "2":
         print("""What category would you like to look at?
@@ -325,8 +323,49 @@ def search_reviews():
                          print(i, place)
                 else: 
                     print("No places match your search!")
-        else:
-               print("please enter a valid choice, a number from 1 to 4. ")
+    elif choice == "3":
+        place =select_place()
+        reviews = place.reviews()
+        for review in reviews:
+            print(f"These are the reviews associated with {place}")
+            for i, review in enumerate(reviews, start = 1):
+                print(f"""Review {i},
+                       Food:{review.food_rating}
+                       Safety:{review.safety_rating}
+                       Affordability:{review.affordability_rating}
+                       Entertainment:{review.entertainment_rating}
+                       Comment:{review.comment}""")
+                
+        print("""What would you like to do next?
+                 1. Delete a review 
+                 2. Add a new review
+                 3. Go back to the main menu""")
+        choice = input(">")
+        if choice == "1":
+            if len(reviews) == 1:
+                review = reviews[0]
+                review.delete()
+            if len(reviews) > 1:
+                print("Please reference the list of reviews and choose the one you want to delete")
+                print("I want to delete review number : ")
+                user_selection = int(input(""))
+                review = reviews[user_selection - 1]
+                review.delete()
+                print(f"review number {user_selection} has been deleted.")
+
+        elif choice == "2":
+            pass
+        elif choice == "3":
+            pass 
+              
+    
+    else:
+        print("please enter a valid choice, a number from 1 to 3. ")
+        print("""What would you like to do?
+          1. See all reviews
+          2. Search reviews for places with  a specific rating in a category
+          3. See reviews of a specific place""")
+
 
 def get_place_details1():
     place = select_place()
@@ -345,11 +384,9 @@ def get_place_details(place):
     reviews = place.reviews()
     if reviews:
       for review in reviews: 
-        print(f"""Food:{review.food_rating}
-                  Safety:{review.safety_rating}
-                  Affordability:{review.affordability_rating}
-                  Entertainment:{review.entertainment_rating}
-                  Comment:{review.comment}
+        print(f"""
+              
+              {review}
               """)
     else:
         print ("You have not added any reviews to this place")
