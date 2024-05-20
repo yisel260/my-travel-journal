@@ -406,7 +406,7 @@ def select_place():
         selected_place = places[number_choice-1]
         return selected_place
     else: 
-        place_name= input("Enter the name of the place:")
+        place_name= input("Enter the name of the place:").lower().strip()
         places = Place.find_by_name(place_name)
         print (places)
 
