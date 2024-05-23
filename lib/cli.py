@@ -17,7 +17,7 @@ from helpers import (
 def main():
     while True:
         menu()
-        choice = input("> ")
+        choice = input("> ").strip()
         if choice == "0":
             exit_program()
         elif choice == "1":
@@ -33,7 +33,8 @@ def main():
         elif choice == "6":
             get_place_details1()
         else:
-            print("Invalid choice")
+            print(f"You have entered : {choice}")
+            print("That is not a valid choice please enter a number")
 
 def select_place():
     pass

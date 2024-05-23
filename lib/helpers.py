@@ -28,7 +28,7 @@ def search_places():
           4. Search for a place by name
 
           """)
-    choice = str(input(">"))
+    choice = str(input(">")).strip()
     places = Place.get_all()
     if choice == "1":
         countries =[]
@@ -60,7 +60,7 @@ def search_places():
         if follow_up_choice == 2:
             menu()
 
-    if choice == "2":
+    elif choice == "2":
         country = str(input("Enter the country you want to search:"))
         places_in_country = Place.find_by_country(country)
         regions =[]
@@ -111,7 +111,7 @@ def search_places():
             if follow_up_choice == 2:
                 menu()
 
-    if choice == "3":
+    elif choice == "3":
        for i, place in enumerate(places, start=1):
             print(i, place)
 
@@ -129,11 +129,13 @@ def search_places():
                place = places[user_choice-1]
                get_place_details(place)
 
-    if choice == "4":
+    elif choice == "4":
         name = str(input("Please enter the name of the place: "))
         place = Place.find_by_name(name)
         for i, place in enumerate(places, start=1):
            print(i, place)
+    else:
+        print(f"You have entered{choice}.That is not a valid choice. Please try again.")
 
 def add_place():
     name = str(input("Please enter the name of the place or city you want to add :")).lower().strip()
