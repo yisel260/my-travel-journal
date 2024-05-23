@@ -240,26 +240,30 @@ def add_place():
 
     print(f"""
 
-       {new_place.name}, {new_place.region}, {new_place.country}  was added to your list of places.
+       {new_place.name.capitalize()}, {new_place.region.capitalize()}, {new_place.country.capitalize()}  was added to your list of places.
        
        """)
     
     follow_up_menu(new_place)
 
 def follow_up_menu(place):
-    print(""" 
-          
-          What would you like to do next?
-          
-          1. Add a review to this place
-          2. Go back to main menu
-          
-          """)
-    choice = input(">")
-    if choice == "1":
-        add_review(place)
-    elif choice == "3":
-        menu()
+    while True:
+        print(""" 
+            
+            What would you like to do next?
+            
+            1. Add a review to this place
+            2. Go back to main menu
+            
+            """)
+        choice = input(">")
+        if choice == "1":
+            add_review(place)
+            break
+        elif choice == "2":
+            return
+        else:
+            print("Please enter a valid choice.")
 
 def add_review1():
      place= select_place()
@@ -267,33 +271,68 @@ def add_review1():
 
 
 def add_review(place):
-    print(f"You are adding a review to {place.name}, {place.region},{place.country}")
-    print("""How was the food? Please enter your rating from 1 to 5.
-          1= It was hard to find anything good to eat!
-          5= Delicious! I cannot wait to go back 
-          """)
-    food_rating = int( input(">"))
+    print(f"You are adding a review to {place.name.capitalize()}, {place.region.capitalize()},{place.country.capitalize()}")
+    while True:
+        print("""How was the food? Please enter your rating from 1 to 5.
+            
+            1= It was hard to find anything good to eat!
+            5= Delicious! I cannot wait to go back 
+            """)
+        food_rating_input = int( input(">"))
+        if food_rating_input >=1 and food_rating_input <=5:
+            food_rating = food_rating_input
+            break
+        else: 
+            print("""
+                  The rating must be a number from 1 to 5. 
+                  """)
+                
+    while True:
+        print("""Was this place safe? Please enter your rating from 1 to 5.
+            1= Not at all! I was lucky to get back alive!
+            5= Very! You can enjoy everything without worry
+            """)
+        safety_rating_input = int( input(">"))
+        if safety_rating_input >=1 and safety_rating_input <=5:
+            safety_rating = safety_rating_input
+            break
+        else: 
+            print("""
+                  The rating must be a number from 1 to 5. 
+                  """)
 
-    print("""Was this place safe? Please enter your rating from 1 to 5.
-          1= Not at all! I was lucky to get back alive!
-          5= Very! You can enjoy everything without worry
-          """)
-    safety_rating = int( input(">"))
+    while True:
+        print("""How affordable was this place? Please enter your rating from 1 to 5.
+            1= Not at all! Come ready to spend you savings!
+            5= Very! It feels like your money multiplied.
+            """)
+        affordability_rating_input = int( input(">"))
+        if affordability_rating_input >=1 and affordability_rating_input <=5:
+            affordability_rating= affordability_rating_input
+            break
+        else:
+            print("""
+                  The rating must be a number from 1 to 5. 
+                  """)
 
-    print("""How affordable was this place? Please enter your rating from 1 to 5.
-          1= Not at all! Come ready to spend you savings!
-          5= Very! It feels like your money multiplied.
-          """)
-    affordability_rating = int( input(">"))
+    while True:
+        print("""How was the entertaiment? Please enter your rating from 1 to 5.
+            1= Not a lot of things to do or see, boring, dissapointing
+            5= Wow! So many things to see and do! I need to go back. 
+            """)
+        entertainment_rating_input = int( input(">"))
+        if entertainment_rating_input>=1 and entertainment_rating_input<=5:
+            entertainment_rating = entertainment_rating_input
+            break
+    while True:
+        print("Enter your thougths about this place.")
+        comment_input= str( input(">"))
+        if comment_input:
+            comment = comment_input
+            break
+        else: 
+            print("The Comment section cannot be empty.")
 
-    print("""How was the entertaiment? Please enter your rating from 1 to 5.
-          1= Not a lot of things to do or see, boring, dissapointing
-          5= Wow! So many things to see and do! I need to go back. 
-          """)
-    entertainment_rating = int( input(">"))
-
-    print("Enter your thougths about this place.")
-    comment= str( input(">"))
     
     new_review = Review.create(food_rating=food_rating, 
                                safety_rating=safety_rating,
@@ -311,24 +350,27 @@ def add_review(place):
 def delete_place():
 
     place=select_place()
+    while True:
+        print(f"""
+            You are about to delete {place}
+            is this correct?
 
-    print(f"""
-          You are about to delete {place}
-          is this correct?
-
-          1. Yes
-          2. No
-          
-          """)
-    choice = input(">")
-    if choice == "1": 
-           reviews = place.reviews()  
-           for review in reviews:
-               review.delete()       
-           place.delete()
-           print (f"{place} has been deleted!")
-    elif choice == "2":
-          menu()
+            1. Yes
+            2. No
+            
+            """)
+        choice = input(">")
+        if choice == "1": 
+            reviews = place.reviews()  
+            for review in reviews:
+                review.delete()       
+            place.delete()
+            print (f"{place} has been deleted!")
+            return
+        elif choice == "2":
+            return
+        else: 
+            print ("You must chooce either 1 or 2.")
 
 def search_reviews():
     reviews = Review.get_all()
@@ -489,41 +531,57 @@ def get_place_details(place):
         print ("You have not added any reviews to this place")
 
 def select_place():
-    print ("""How would you like to select a place?
-           1. Select from a list of all my places
-           2. Search for a place by name""")
-    choice = input(">")
-    if choice == "1":
-        places= Place.get_all()
-        for i, place in enumerate(places, start=1):
-            print(i, place)
-
-        number_choice =int(input("Enter the number of your choice:"))
+    while True:
+        print ("""How would you like to select a place?
+            1. Select from a list of all my places
+            2. Search for a place by name""")
         
-        selected_place = places[number_choice-1]
-        return selected_place
-    else: 
-        place_name= input("Enter the name of the place:").lower().strip()
-        places = Place.find_by_name(place_name)
-        print (places)
+        choice = input(">")
 
-        if places:
-            if len(places) == 1:
-               selected_place = places[0]
-               return selected_place
-        
-            elif len(places) > 1:
-                 print ("There are several places with that name please select the correct one from the list")
-                 for i, place in enumerate(places, start = 1):
-                     print (i, place)
-                 user_choice = int(input("The number of your choice:>"))
-                 selected_place = places[user_choice-1]
-                 return selected_place
-            else: 
-                print(f"Oh no! We found no places with the name {place_name}")
+        if choice == "1":
+            while True:
+                places= Place.get_all()
+                for i, place in enumerate(places, start=1):
+                    print(i, place)
+                try:
+                    number_choice =int(input("Enter the number of your choice:"))
+                    if isinstance(number_choice,int) and number_choice >=1 and number_choice <= len(places):
+                        selected_place = places[number_choice-1]
+                        return selected_place
+                    else: 
+                        print(f"""
+                            You have entered {number_choice}. 
+                            That is not a valid choice. Please try again.
+                            Enter the number that matches your choice""")
+                except ValueError :
+                    print("""
+                          Please enter a valid number!
+                          """)
+                    
+        elif choice == '2': 
+            place_name= input("Enter the name of the place:").lower().strip()
+            places = Place.find_by_name(place_name)
+            print (places)
+
+            if places:
+                if len(places) == 1:
+                   selected_place = places[0]
+                   return selected_place
             
+                elif len(places) > 1:
+                    print ("There are several places with that name please select the correct one from the list.")
+                    for i, place in enumerate(places, start = 1):
+                        print (i, place)
+                    user_choice = int(input("The number of your choice:>"))
+                    selected_place = places[user_choice-1]
+                    return selected_place
+                else: 
+                    print(f"Oh no! We found no places with the name {place_name}")
+        else: 
+            print(f"You have entered {choice} . That does not match a valid choice please try again.")
+                
 
-        
+            
 
         
              
