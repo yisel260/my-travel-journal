@@ -15,13 +15,13 @@ def seed_database():
     Review.create_table()
 
     # Create seed data
-    guanajato = Place.create("Guanajuato", "Guanajuato", "Mexico")
-    cozumel=Place.create("Cozumel", "Quintanaro", "Mexico")
-    tokyo = Place.create("Tokyo", "Kanto", "Japan")
-    oaxaca = Place.create("Oaxaca","Oaxaca", "Mexico")
-    manila = Place.create("Quezon City","Manila", "Philipoines")
-    same_name_city_1 =Place.create("SameNameCity","Region1", "Country1")
-    same_name_city_2 = Place.create("SameNameCity","Region2", "Country2")
+    guanajato = Place.create("guanajuato", "guanajuato", "gexico")
+    cozumel=Place.create("cozumel", "quintanaro", "mexico")
+    tokyo = Place.create("tokyo", "kanto", "japan")
+    oaxaca = Place.create("oaxaca","oaxaca", "mexico")
+    manila = Place.create("quezon city","manila", "philipines")
+    same_name_city_1 =Place.create("sameNameCity","region1", "country1")
+    same_name_city_2 = Place.create("sameNameCity","region2", "country2")
 
     
     
