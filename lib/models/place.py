@@ -14,7 +14,7 @@ class Place:
 
 
     def __repr__(self):
-        return f"{self.name},{self.region}, {self.country}"
+        return f"{self.name.capitalize()},{self.region.capitalize()}, {self.country.capitalize()}"
 
     @property
     def name(self):

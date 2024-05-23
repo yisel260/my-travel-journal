@@ -39,7 +39,7 @@ def search_places():
                     countries.append(place.country)
 
             for i, country in enumerate(countries, start=1):
-                print(i, country)
+                print(i, country.capitalize())
 
             follow_up_choice= 0
             
@@ -61,7 +61,7 @@ def search_places():
                     places = Place.find_by_country(country_choice)
                     print (f"You have visited the following places in {country_choice}:")
                     for i, place in enumerate(places, start=1):
-                        print(i,f"{ place.name},{place.region}")
+                        print(i,f"{ place.name.capitalize()},{place.region.capitalize()}")
                     while True:
                         print("""
                                 
@@ -97,50 +97,99 @@ def search_places():
 
             print ( f"You have visited the folowing regions or states in {country}")
             for i, region in enumerate(regions, start=1):
-                print(i, region)
+                print(i, region.capitalize())
             
             if len(regions) == 1:
                 region = regions[0]
                 print( """ What would you like to do next?
-                    
-                    1. see the places in this region I have visited in this region
-                    2. go back to main menu
-                    
-                    """)
+                        
+                        1. see the places in this region I have visited in this region
+                        2. go back to main menu
+                        
+                        """)
                 region_user_choice = input(">")
 
                 if region_user_choice == "1":
                     places = Place.find_by_region(region)
                     for i, place in enumerate(places, start =1):
                         print(i,{place.name})
-                if region_user_choice == "2":
-                    menu()
+                    while True:
+                            print("""
+                                    
+                                    What would you like to do next?
+                                    1. Select a place and see details about it
+                                    2. Go back to main menu
+
+                                    """)
+                            choice_2 = input(">").strip()
+
+                            if choice_2 == "1": 
+                                print("Please select a place by number")
+                                user_choice= int(input(">"))
+                                place = places[user_choice-1]
+                                get_place_details(place)
+                                return
+
+                            elif choice_2 == "2":
+                                return
+                elif region_user_choice == "2":
                     return
+                else:
+                    print (f"You have entered :{region_user_choice}.That is not a valid choice.Plase try again")
 
             if len(regions)>1:
+               
+               while True:
+                    print("""
+                    
+                    What would you like to do next?
+                    1. Select a region and see places I have visited there
+                    2. Go back to main menu
+                    
+                    """)
 
-                print("""
-                
-                What would you like to do next?
-                1. Select a region and see places I have visited there
-                2. Go back to main menu
-                
-                """)
-                follow_up_choice =int(input(">"))
-                while True:
+                    follow_up_choice =int(input(">"))
+
                     if follow_up_choice == 1:
                         print("Please chose a region by its number")
                         region = int(input("Enter a the number of the region you want to select:"))
-                        region_choice = regions[region-1]
-                        print(region_choice)
-                        places = Place.find_by_region(region_choice)
-                        print (f"You have visited the following places in {region_choice}:")
-                        for i, place in enumerate(places, start=1):
-                            print(i, place.name)
-                        break
-                    if follow_up_choice == 2:
-                        menu()
-                        return
+
+                        if region >=1 and region < len(regions):
+                            region_choice = regions[region-1]
+                            places = Place.find_by_region(region_choice)
+                            print (f"You have visited the following places in {region_choice}:")
+                            for i, place in enumerate(places, start=1):
+                                print(i, place.name)
+                                while True:
+                                    print("""
+                                            
+                                            What would you like to do next?
+                                            1. Select a place and see details about it
+                                            2. Go back to main menu
+
+                                            """)
+                                    choice_2 = input(">").strip()
+
+                                    if choice_2 == "1": 
+                                        print("Please select a place by number")
+                                        user_choice= int(input(">"))
+                                        place = places[user_choice-1]
+                                        get_place_details(place)
+                                        return
+
+                                    elif choice_2 == "2":
+                                        return
+                                    else: 
+                                         print(f"""You have entered {choice}.That is not a valid choice.
+                                                    please look at the numbers next to the regions and make your choice
+                                                    by entering a number.""")
+                                
+                    elif follow_up_choice == 2:
+                            return
+                    else:
+                            print(f"You have entered {follow_up_choice}. That is not a valid choice. Please try again.")
+                            
+                        
 
         elif choice == "3":
             for i, place in enumerate(places, start=1):
@@ -164,15 +213,20 @@ def search_places():
                     return
 
                 elif choice_2 == "2":
-                    menu()
                     return
+                else: 
+                    print(f"You have entered {choice_2}.That is not a valid choice please try again.")
 
         elif choice == "4":
                     name = str(input("Please enter the name of the place: ")).strip().lower()
                     place = Place.find_by_name(name)
-                    for i, place in enumerate(places, start=1):
-                        print(i, place)
-                    return
+                    if place : 
+                        for i, place in enumerate(places, start=1):
+                            print(i, place)
+                    else: 
+                        print(f"You have entered {name}. There are no matches for this name. ")
+                    break
+        
         elif choice == '5':
             return
         else:

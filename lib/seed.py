@@ -15,7 +15,7 @@ def seed_database():
     Review.create_table()
 
     # Create seed data
-    guanajato = Place.create("guanajuato", "guanajuato", "gexico")
+    guanajato = Place.create("guanajuato", "guanajuato", "mexico")
     cozumel=Place.create("cozumel", "quintanaro", "mexico")
     tokyo = Place.create("tokyo", "kanto", "japan")
     oaxaca = Place.create("oaxaca","oaxaca", "mexico")
